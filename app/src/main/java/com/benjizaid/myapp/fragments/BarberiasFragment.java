@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +21,8 @@ import com.benjizaid.myapp.BarberosDetallesActivity;
 import com.benjizaid.myapp.NavigationActivity;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.adapters.BarberiaAdapter;
+import com.benjizaid.myapp.eventos.RecyclerTouchListener;
+import com.benjizaid.myapp.interfaces.ClickListener;
 import com.benjizaid.myapp.interfaces.OnBarberiaListener;
 import com.benjizaid.myapp.interfaces.OnBarberosListener;
 import com.benjizaid.myapp.interfaces.OnTabListener;
@@ -56,6 +59,7 @@ public class BarberiasFragment extends Fragment {
 
     private RecyclerView recyclerViewBarberias;
     private RecyclerView.LayoutManager mLayoutManager;
+
 
     public BarberiasFragment() {
         // Required empty public constructor
@@ -119,6 +123,9 @@ public class BarberiasFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getBarberias();
+        recyclerViewBarberias.setAdapter(new BarberiaAdapter(getActivity(), this.data));
+        //BarberiaAdapter barberiaAdapter = new BarberiaAdapter(data, getActivity());
+
 
         /*BarberiaAdapter barberiaAdapter = new BarberiaAdapter(data, getActivity());
         lstBarberia.setAdapter(barberiaAdapter);
@@ -126,12 +133,30 @@ public class BarberiasFragment extends Fragment {
         if(mListener!=null)mListener.renderFirstBarberia(first());*/
     }
 
+
+
     private void ui(View view){
 
         recyclerViewBarberias = (RecyclerView) view.findViewById(R.id.lstBarberias);
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewBarberias.setLayoutManager(mLayoutManager);
 
+        recyclerViewBarberias.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerViewBarberias, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                if(data!=null){
+                    BarberiaEntity barberiaEntity = data.get(position);
+                    goToDetalleBarberia(barberiaEntity);
+                }
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }) {
+
+        });
 
         /*
         lstBarberia = (ListView) view.findViewById(R.id.lstBarberias);

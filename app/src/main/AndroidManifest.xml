@@ -28,7 +28,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".NavigationActivity" />
+        <activity android:name=".adapters.BarberoAdapter" />
+        <activity android:name=".adapters.BarberiaAdapter" />
+        <activity
+            android:name=".BarberosDetallesActivity"
+            android:parentActivityName=".NavigationActivity" />
+        <activity android:name=".BarberiaDetalleActivity"
+            android:parentActivityName=".NavigationActivity" />
     </application>
 
 </manifest>

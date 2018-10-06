@@ -9,6 +9,6 @@
     </style>
     <style name="SplashScreen" parent="Theme.AppCompat.NoActionBar" />
     <style name="LoginScreen" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="ColorPrimary"></item>
+
     </style>
 </resources>

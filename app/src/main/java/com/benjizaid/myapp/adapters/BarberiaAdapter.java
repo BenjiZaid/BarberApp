@@ -1,6 +1,7 @@
 package com.benjizaid.myapp.adapters;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -19,17 +20,29 @@ import java.util.List;
 
 public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHolder>{
 
-    private final List<BarberosEntity> barberosEntityList;
+    private List<BarberosEntity> barberosEntityList;
     private final Context context;
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public TextView tviNombreBerberia;
+        //public ImageView iviPhoto;
+        public View view;
+        public ViewHolder(View  v) {
+            super(v);
+            this.view = v;
+            tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBerberia);
+            //iviPhoto= (ImageView) v.findViewById(R.id.iviPhoto);
+        }
+    }
 
-    public BarberiaAdapter(List<BarberosEntity> barberosEntityList, Context context) {
-        this.barberosEntityList = barberosEntityList;
+    public BarberiaAdapter(Context context, List<BarberiaEntity> barberosEntityList) {
         this.context = context;
+        //this.barberosEntityList = barberosEntityList;
     }
 
     @Override
-    public BarberiaAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_barbero,parent,false);
         ViewHolder vh = new ViewHolder(v);
@@ -49,18 +62,7 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         return barberosEntityList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView tviNombreBerberia;
-        //public ImageView iviPhoto;
-        public View view;
-        public ViewHolder(View  v) {
-            super(v);
-            this.view = v;
-            tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBerberia);
-            //iviPhoto= (ImageView) v.findViewById(R.id.iviPhoto);
-        }
-    }
+
 }
 
 /*

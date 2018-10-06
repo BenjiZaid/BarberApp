@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorActionBarLogin"></color>
+    <color name="colorBackground">#d9b299</color>
 </resources>

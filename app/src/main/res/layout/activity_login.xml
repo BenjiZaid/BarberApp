@@ -4,37 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    android:background="#a04000">
-<ImageView
-    android:layout_width="100dp"
-    android:layout_height="150dp"
-    android:src="@mipmap/barbershop_logo"
-    android:layout_margin="20dp"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/ivbarber"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:layout_below="@id/ivbarber">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorWhite"
-        android:textSize="24sp"
-        android:text="@string/sign_in"
-        android:gravity="center"/>
-    <EditText
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="10dp"
+    android:id="@+id/activity_login"
+    android:background="@color/colorBackground">
+
+    <ImageView
+        android:id="@+id/ivbarber"
+        android:layout_centerHorizontal="true"
+        android:layout_width="125dp"
+        android:layout_height="149dp"
+        android:src="@mipmap/barbershop_logo" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"/>
-</LinearLayout>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/ivbarber">
 
+        <EditText
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:padding="10dp"
+            android:layout_marginBottom="5dp"
+            android:hint="Username"/>
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:padding="10dp"
+            android:hint="Password"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:textAllCaps="false"
+            android:text="Sign in" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:background="@drawable/circle"
+            android:src="@mipmap/ic_next"
+            android:id="@+id/btnNext"/>
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#cf9f7f"
+        android:id="@+id/framengLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Create account"/>
+    </FrameLayout>
 </RelativeLayout>
