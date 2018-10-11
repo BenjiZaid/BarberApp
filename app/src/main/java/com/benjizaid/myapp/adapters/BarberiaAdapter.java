@@ -41,6 +41,7 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         //this.barberosEntityList = barberosEntityList;
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
