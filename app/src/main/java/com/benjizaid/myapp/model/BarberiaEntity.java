@@ -9,6 +9,15 @@ public class BarberiaEntity implements Serializable {
     private String telefono;
     private String email;
     private String direccion;
+    private String foto;
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     public int getId() {
         return id;

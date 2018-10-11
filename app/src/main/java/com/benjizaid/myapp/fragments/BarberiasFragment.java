@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.benjizaid.myapp.BarberiaDetalleActivity;
 import com.benjizaid.myapp.BarberosDetallesActivity;
@@ -40,7 +41,7 @@ import java.util.List;
  * Use the {@link BarberiasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BarberiasFragment extends Fragment {
+public class BarberiasFragment extends Fragment implements BarberiaAdapter.AdapterCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -123,7 +124,7 @@ public class BarberiasFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getBarberias();
-        recyclerViewBarberias.setAdapter(new BarberiaAdapter(getActivity(), this.data));
+        recyclerViewBarberias.setAdapter(new BarberiaAdapter(getActivity(), this.data, this ));
         //BarberiaAdapter barberiaAdapter = new BarberiaAdapter(data, getActivity());
 
 
@@ -140,7 +141,7 @@ public class BarberiasFragment extends Fragment {
         recyclerViewBarberias = (RecyclerView) view.findViewById(R.id.lstBarberias);
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewBarberias.setLayoutManager(mLayoutManager);
-
+/*
         recyclerViewBarberias.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerViewBarberias, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -154,24 +155,9 @@ public class BarberiasFragment extends Fragment {
             public void onLongClick(View view, int position) {
 
             }
-        }) {
+        }));
+*/
 
-        });
-
-        /*
-        lstBarberia = (ListView) view.findViewById(R.id.lstBarberias);
-        //events
-        lstBarberia.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(mListener!=null && data!=null){
-                    BarberiaEntity barberiaEntity = (BarberiaEntity) adapterView.getAdapter().getItem(i);
-                    goToDetalleBarberia(barberiaEntity);
-                    //mListener.selectedItemBarberia(barberiaEntity);
-                }
-            }
-        });
-        */
     }
 
     private void getBarberias() {
@@ -182,6 +168,7 @@ public class BarberiasFragment extends Fragment {
         barberiaEntity.setEmail("pedro@gmail.com");
         barberiaEntity.setTelefono("92835056");
         barberiaEntity.setDireccion("AAAAAAAAAAAAAA");
+        barberiaEntity.setFoto("mipmap-hdpi/ic_next-png");
 
         BarberiaEntity barberiaEntity1= new BarberiaEntity();
         barberiaEntity1.setId(2);
@@ -189,6 +176,7 @@ public class BarberiasFragment extends Fragment {
         barberiaEntity1.setEmail("carlos@gmail.com");
         barberiaEntity1.setTelefono("96859685");
         barberiaEntity1.setDireccion("AX22222222222222");
+        barberiaEntity1.setFoto("mipmap-hdpi/ic_next-png");
 
         data = new ArrayList<>();
         data.add(barberiaEntity);
@@ -211,4 +199,9 @@ public class BarberiasFragment extends Fragment {
         return null;
     }
 
+
+    @Override
+    public void onClickCallback(BarberiaEntity item) {
+        String Holi = "";
+    }
 }

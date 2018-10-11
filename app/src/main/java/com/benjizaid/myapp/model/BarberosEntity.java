@@ -8,7 +8,7 @@ public class BarberosEntity implements Serializable {
     private String name;
     private String telefono;
     private String email;
-    private int foto;
+    private String foto;
     private String descripcion;
 
     public int getId() {
@@ -43,11 +43,11 @@ public class BarberosEntity implements Serializable {
         this.email = email;
     }
 
-    public int getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(int foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 

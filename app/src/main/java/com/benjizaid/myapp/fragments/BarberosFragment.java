@@ -129,6 +129,7 @@ public class BarberosFragment extends Fragment {
         barberosEntity.setEmail("pedro@gmail.com");
         barberosEntity.setTelefono("92835056");
         barberosEntity.setDescripcion("XXXXXX");
+        barberosEntity.setFoto("mipmap-hdpi/ic_next-png");
 
         BarberosEntity barberosEntity1= new BarberosEntity();
         barberosEntity1.setId(2);
@@ -136,6 +137,7 @@ public class BarberosFragment extends Fragment {
         barberosEntity1.setEmail("carlos@gmail.com");
         barberosEntity1.setTelefono("96859685");
         barberosEntity1.setDescripcion("AAAAAAAAA");
+        barberosEntity1.setFoto("mipmap-hdpi/ic_next-png");
 
         data = new ArrayList<>();
         data.add(barberosEntity);
