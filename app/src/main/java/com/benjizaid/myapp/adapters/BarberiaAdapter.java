@@ -20,8 +20,14 @@ import java.util.List;
 
 public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHolder>{
 
-    private List<BarberosEntity> barberosEntityList;
+    private List<BarberiaEntity> barberiaEntities;
     private final Context context;
+    private AdapterCallback callback;
+
+    public interface AdapterCallback {
+        void onClickCallback(BarberiaEntity item);
+
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -31,36 +37,37 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         public ViewHolder(View  v) {
             super(v);
             this.view = v;
-            tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBerberia);
+            tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBarberia);
             //iviPhoto= (ImageView) v.findViewById(R.id.iviPhoto);
         }
     }
 
-    public BarberiaAdapter(Context context, List<BarberiaEntity> barberosEntityList) {
+    public BarberiaAdapter(Context context, List<BarberiaEntity> barberosEntityList, AdapterCallback adapterCallback) {
         this.context = context;
-        //this.barberosEntityList = barberosEntityList;
+        this.barberiaEntities = barberosEntityList;
+        this.callback = adapterCallback;
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_barbero,parent,false);
+                .inflate(R.layout.row_barberia,parent,false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(BarberiaAdapter.ViewHolder holder, int position) {
-        BarberosEntity barberosEntity = barberosEntityList.get(position);
+        BarberiaEntity barberiaEntity = barberiaEntities.get(position);
         final int itemPosition = position;
-        final String barberoName = barberosEntity.getName();
+        final String barberoName = barberiaEntity.getName();
         holder.tviNombreBerberia.setText(barberoName);
     }
 
     @Override
     public int getItemCount() {
-        return barberosEntityList.size();
+        return barberiaEntities.size();
     }
 
 

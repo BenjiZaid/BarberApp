@@ -55,7 +55,7 @@ public class RecycleBarberoAdapter extends RecyclerView.Adapter<RecycleBarberoAd
         public ViewHolder(View  v) {
             super(v);
             this.view = v;
-            tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBerberia);
+            tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBarberia);
             //iviPhoto= (ImageView) v.findViewById(R.id.iviPhoto);
         }
     }
