@@ -170,6 +170,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         barberiaEntity.setDireccion("AAAAAAAAAAAAAA");
         barberiaEntity.setFoto("mipmap-hdpi/ic_next-png");
 
+
         BarberiaEntity barberiaEntity1= new BarberiaEntity();
         barberiaEntity1.setId(2);
         barberiaEntity1.setName("Carlos Barberia2");
