@@ -20,8 +20,9 @@ import java.util.List;
 
 public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHolder>{
 
-    private List<BarberosEntity> barberosEntityList;
     private final Context context;
+    private List<BarberiaEntity> barberiaEntities;
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -36,30 +37,30 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         }
     }
 
-    public BarberiaAdapter(Context context, List<BarberiaEntity> barberosEntityList) {
+    public BarberiaAdapter(Context context, List<BarberiaEntity> barberiaEntities) {
         this.context = context;
-        //this.barberosEntityList = barberosEntityList;
+        this.barberiaEntities = barberiaEntities;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_barbero,parent,false);
+                .inflate(R.layout.row_barberia,parent,false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(BarberiaAdapter.ViewHolder holder, int position) {
-        BarberosEntity barberosEntity = barberosEntityList.get(position);
+        BarberiaEntity barberiaEntity = barberiaEntities.get(position);
         final int itemPosition = position;
-        final String barberoName = barberosEntity.getName();
+        final String barberoName = barberiaEntity.getName();
         holder.tviNombreBerberia.setText(barberoName);
     }
 
     @Override
     public int getItemCount() {
-        return barberosEntityList.size();
+        return barberiaEntities.size();
     }
 
 
