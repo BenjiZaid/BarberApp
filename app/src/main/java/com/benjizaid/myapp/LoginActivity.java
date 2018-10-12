@@ -19,16 +19,31 @@ public class LoginActivity extends BaseActivity {
 
     private void ui(){
         btnNext = findViewById(R.id.btnNext);
-
+        framengLayout = findViewById(R.id.framengLayout);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 gotoMain();
             }
         });
+
+        framengLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoSignUp();
+            }
+        });
+
     }
 
     private void gotoMain() {
         next(NavigationActivity.class,null,true);
+    }
+
+    private void gotoSignUp(){
+
+        Intent intent= new Intent(this,CreateUserActivity.class);
+        startActivity(intent);
+
     }
 }
