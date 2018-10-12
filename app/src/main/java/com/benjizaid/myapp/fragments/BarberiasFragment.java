@@ -33,14 +33,6 @@ import com.benjizaid.myapp.model.BarberosEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {} interface
- * to handle interaction events.
- * Use the {@link BarberiasFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BarberiasFragment extends Fragment implements BarberiaAdapter.AdapterCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

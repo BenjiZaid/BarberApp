@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
+
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.benjizaid.myapp.BarberosDetallesActivity;
 import com.benjizaid.myapp.R;
@@ -30,7 +31,7 @@ import java.util.List;
  * Use the {@link BarberosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BarberosFragment extends Fragment {
+public class BarberosFragment extends Fragment implements BarberoAdapter.AdapterCallBackBarbero {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,7 +49,8 @@ public class BarberosFragment extends Fragment {
     //private OnFragmentInteractionListener mListener;
 
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewBarbero;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public BarberosFragment() {
         // Required empty public constructor
@@ -112,13 +114,14 @@ public class BarberosFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         getBarberos();
-
-        BarberoAdapter barberosAdapter = new BarberoAdapter(data, getActivity());
+        recyclerViewBarbero.setAdapter(new BarberoAdapter(this.data, getActivity(),this ));
+        /*
+        BarberoAdapter barberosAdapter = new BarberoAdapter(data, getActivity(), this);
         lstBarberos.setAdapter(barberosAdapter);
 
         if(mListener!=null)mListener.renderFirstBarberos(first());
+        */
     }
 
     private void getBarberos() {
@@ -145,20 +148,10 @@ public class BarberosFragment extends Fragment {
     }
 
     private void ui(View view){
-        lstBarberos = (ListView) view.findViewById(R.id.lstBarberos);
+        recyclerViewBarbero = (RecyclerView) view.findViewById(R.id.lstBarberos);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewBarbero.setLayoutManager(mLayoutManager);
 
-        //events
-        lstBarberos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(mListener!=null && data!=null){
-                    BarberosEntity barberosEntity = (BarberosEntity) adapterView.getAdapter().getItem(i);
-                    goToDetallesBarberos(barberosEntity);
-                    //mListener.selectedItemBarberos(barberosEntity);
-                    //mListener.goToDetallesBarberos(barberosEntity);
-                }
-            }
-        });
     }
 
     private void goToDetallesBarberos (BarberosEntity barberosEntity){
@@ -174,5 +167,10 @@ public class BarberosFragment extends Fragment {
             return data.get(0);
         }
         return null;
+    }
+
+    @Override
+    public void onClickCallback(BarberosEntity item) {
+
     }
 }

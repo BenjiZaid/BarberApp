@@ -61,8 +61,8 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
     public void onBindViewHolder(BarberiaAdapter.ViewHolder holder, int position) {
         BarberiaEntity barberiaEntity = barberiaEntities.get(position);
         final int itemPosition = position;
-        final String barberoName = barberiaEntity.getName();
-        holder.tviNombreBerberia.setText(barberoName);
+        final String barberiaName = barberiaEntity.getName();
+        holder.tviNombreBerberia.setText(barberiaName);
     }
 
     @Override

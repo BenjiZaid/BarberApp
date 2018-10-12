@@ -4,14 +4,19 @@
     android:layout_height="match_parent"
     >
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lstBarberos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <!-- TODO: Update blank fragment layout -->
-    <ListView
+    <!--<ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbarSize="0dp"
         android:scrollbars="none"
         android:id="@+id/lstBarberos">
 
-    </ListView>
+    </ListView>-->
 
 </FrameLayout>
