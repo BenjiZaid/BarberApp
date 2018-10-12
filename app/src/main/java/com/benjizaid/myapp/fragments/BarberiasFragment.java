@@ -195,6 +195,9 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
 
     @Override
     public void onClickCallback(BarberiaEntity item) {
-        String Holi = "";
+        Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
+
+        Intent i = new Intent(getActivity(), BarberiaDetalleActivity.class);
+
     }
 }

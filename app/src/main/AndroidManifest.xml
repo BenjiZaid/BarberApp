@@ -35,8 +35,10 @@
         <activity
             android:name=".BarberosDetallesActivity"
             android:parentActivityName=".NavigationActivity" />
-        <activity android:name=".BarberiaDetalleActivity"
+        <activity
+            android:name=".BarberiaDetalleActivity"
             android:parentActivityName=".NavigationActivity" />
+        <activity android:name=".CreateUserActivity"></activity>
     </application>
 
 </manifest>
