@@ -30,7 +30,7 @@ public class BarberosDetallesActivity extends BaseActivity {
 
     private void populate(){
         if(barberosEntity!=null){
-            textView.setText(barberosEntity.getName());
+            textView.setText(barberosEntity.getvName());
         }
 
     }

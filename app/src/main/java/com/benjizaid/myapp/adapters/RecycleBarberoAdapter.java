@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.androidnetworking.widget.ANImageView;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.model.BarberosEntity;
 
@@ -37,9 +38,14 @@ public class RecycleBarberoAdapter extends RecyclerView.Adapter<RecycleBarberoAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         BarberosEntity barberosEntity = barberosEntityList.get(position);
         final int itemPosition = position;
-        final String barberoName = barberosEntity.getName();
+        final String barberoName = barberosEntity.getvName();
 
         holder.tviNombreBerberia.setText(barberoName);
+
+        holder.fotoBarbero.setDefaultImageResId(R.mipmap.ic_launcher);
+        holder.fotoBarbero.setErrorImageResId(R.mipmap.ic_launcher);
+        //holder.fotoBarberia.setImageUrl(barberiaEntity.getvFoto());
+        holder.fotoBarbero.setImageUrl("https://picsum.photos/300/300/?image=" + barberosEntity.getId());
     }
 
     @Override
@@ -50,12 +56,14 @@ public class RecycleBarberoAdapter extends RecyclerView.Adapter<RecycleBarberoAd
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView tviNombreBerberia;
+        public ANImageView  fotoBarbero;
         //public ImageView iviPhoto;
         public View view;
         public ViewHolder(View  v) {
             super(v);
             this.view = v;
             tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBarberia);
+            fotoBarbero = (ANImageView) v.findViewById(R.id.iviFotoBarbero);
             //iviPhoto= (ImageView) v.findViewById(R.id.iviPhoto);
         }
     }

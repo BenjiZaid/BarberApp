@@ -4,58 +4,87 @@ import java.io.Serializable;
 
 public class BarberosEntity implements Serializable {
 
+    private int IDBarberia;
+    private boolean bActivo;
     private int id;
-    private String name;
-    private String telefono;
-    private String email;
-    private String foto;
-    private String descripcion;
+    private String vDescripcion;
+    private String vEmail;
+    private String vFoto;
+    private String vName;
+    private String vTelefono;
+
+    public BarberosEntity() {
+    }
+
+    public int getIDBarberia() {
+        return IDBarberia;
+    }
+
+    public BarberosEntity setIDBarberia(int IDBarberia) {
+        this.IDBarberia = IDBarberia;
+        return this;
+    }
+
+    public boolean isbActivo() {
+        return bActivo;
+    }
+
+    public BarberosEntity setbActivo(boolean bActivo) {
+        this.bActivo = bActivo;
+        return this;
+    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public BarberosEntity setId(int id) {
         this.id = id;
+        return this;
     }
 
-    public String getName() {
-        return name;
+    public String getvDescripcion() {
+        return vDescripcion;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public BarberosEntity setvDescripcion(String vDescripcion) {
+        this.vDescripcion = vDescripcion;
+        return this;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getvEmail() {
+        return vEmail;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public BarberosEntity setvEmail(String vEmail) {
+        this.vEmail = vEmail;
+        return this;
     }
 
-    public String getEmail() {
-        return email;
+    public String getvFoto() {
+        return vFoto;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public BarberosEntity setvFoto(String vFoto) {
+        this.vFoto = vFoto;
+        return this;
     }
 
-    public String getFoto() {
-        return foto;
+    public String getvName() {
+        return vName;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public BarberosEntity setvName(String vName) {
+        this.vName = vName;
+        return this;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getvTelefono() {
+        return vTelefono;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public BarberosEntity setvTelefono(String vTelefono) {
+        this.vTelefono = vTelefono;
+        return this;
     }
 }

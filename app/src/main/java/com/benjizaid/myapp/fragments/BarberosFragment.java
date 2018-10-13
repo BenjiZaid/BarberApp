@@ -19,14 +19,22 @@ import android.widget.ListView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.benjizaid.myapp.BarberosDetallesActivity;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.adapters.BarberoAdapter;
+import com.benjizaid.myapp.app.WebService;
 import com.benjizaid.myapp.interfaces.OnBarberosListener;
 import com.benjizaid.myapp.model.BarberiaEntity;
 import com.benjizaid.myapp.model.BarberosEntity;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +60,11 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
     //private OnTabListener mListener;
     private OnBarberosListener mListener;
     private ListView lstBarberos;
-    private List<BarberosEntity> data;
 
-    //private OnFragmentInteractionListener mListener;
+    private List<BarberosEntity> listaBarberos;
+    private BarberoAdapter barberoAdapter;
+
+    private ProgressBar progressBar;
 
 
     private RecyclerView recyclerViewBarbero;
@@ -93,6 +103,25 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
         }
     }
 
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        progressBar.setVisibility(View.GONE);
+        listaBarberos = new ArrayList<>();
+        barberoAdapter = new BarberoAdapter(this.listaBarberos, getActivity(), this);
+        recyclerViewBarbero.setAdapter(barberoAdapter);
+
+        getBarberos();
+
+        /*
+        BarberoAdapter barberosAdapter = new BarberoAdapter(data, getActivity(), this);
+        lstBarberos.setAdapter(barberosAdapter);
+
+        if(mListener!=null)mListener.renderFirstBarberos(first());
+        */
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,20 +155,9 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
         mListener = null;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getBarberos();
-        recyclerViewBarbero.setAdapter(new BarberoAdapter(this.data, getActivity(),this ));
-        /*
-        BarberoAdapter barberosAdapter = new BarberoAdapter(data, getActivity(), this);
-        lstBarberos.setAdapter(barberosAdapter);
-
-        if(mListener!=null)mListener.renderFirstBarberos(first());
-        */
-    }
 
     private void getBarberos() {
+        /*
         //1. DATA
         BarberosEntity barberosEntity= new BarberosEntity();
         barberosEntity.setId(1);
@@ -160,16 +178,55 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
         data = new ArrayList<>();
         data.add(barberosEntity);
         data.add(barberosEntity1);
+        */
+
+        AndroidNetworking.get(WebService.ListarBarberos())
+                .setPriority(Priority.LOW)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+                        try {
+
+
+                            BarberosEntity item;
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                item = new BarberosEntity();
+                                item.setIDBarberia(jsonArray.getJSONObject(i).getInt("IDBarberia"))
+                                        //.setbActivo(jsonArray.getJSONObject(i).getString("bActivo"))
+                                        .setId(jsonArray.getJSONObject(i).getInt("id"))
+                                        .setvDescripcion(jsonArray.getJSONObject(i).getString("vDescripcion"))
+                                        .setvEmail(jsonArray.getJSONObject(i).getString("vEmail"))
+                                        .setvFoto(jsonArray.getJSONObject(i).getString("vFoto"))
+                                        .setvName(jsonArray.getJSONObject(i).getString("vName"))
+                                        .setvTelefono(jsonArray.getJSONObject(i).getString("vTelefono"));
+                                listaBarberos.add(item);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        barberoAdapter.setBarberosEntities(listaBarberos);
+                        barberoAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+
+                    }
+                });
     }
 
-    private void ui(View view){
+    private void ui(View view) {
         recyclerViewBarbero = (RecyclerView) view.findViewById(R.id.lstBarberos);
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewBarbero.setLayoutManager(mLayoutManager);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+
 
     }
 
-    private void goToDetallesBarberos (BarberosEntity barberosEntity){
+    private void goToDetallesBarberos(BarberosEntity barberosEntity) {
         Intent intent = new Intent(getActivity(), BarberosDetallesActivity.class);
         intent.putExtra("BARBEROS", barberosEntity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -177,9 +234,9 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
         }
     }
 
-    private BarberosEntity first(){
-        if(data!=null){
-            return data.get(0);
+    private BarberosEntity first() {
+        if (listaBarberos != null) {
+            return listaBarberos.get(0);
         }
         return null;
     }
@@ -190,8 +247,8 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch(requestCode) {
-            case MAKE_CALL_PERMISSION_REQUEST_CODE :
+        switch (requestCode) {
+            case MAKE_CALL_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(getActivity(), "You can call the number by clicking on the button", Toast.LENGTH_SHORT).show();
                 }
@@ -202,7 +259,7 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
     @Override
     public void onClickCallback(BarberosEntity item) {
         if (checkPermission(Manifest.permission.CALL_PHONE)) {
-            String dial = "tel:" + item.getTelefono();
+            String dial = "tel:" + item.getvTelefono();
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
         } else {
             Toast.makeText(getActivity(), "Permission Call Phone denied", Toast.LENGTH_SHORT).show();
@@ -211,7 +268,7 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
 
     @Override
     public void onClickNameBarbero(BarberosEntity item) {
-        if(data!=null){
+        if (listaBarberos != null) {
             Intent intent = new Intent(getActivity(), BarberosDetallesActivity.class);
             intent.putExtra("BARBEROS", item);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

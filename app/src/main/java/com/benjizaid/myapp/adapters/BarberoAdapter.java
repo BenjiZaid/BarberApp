@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.androidnetworking.widget.ANImageView;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.model.BarberiaEntity;
 import com.benjizaid.myapp.model.BarberosEntity;
@@ -29,16 +30,24 @@ public class BarberoAdapter extends RecyclerView.Adapter<BarberoAdapter.ViewHold
         void onClickNameBarbero(BarberosEntity item);
     }
 
+    public BarberoAdapter setBarberosEntities(List<BarberosEntity> barberosEntities) {
+        this.barberosEntities = barberosEntities;
+        return this;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView tviNombreBarbero;
         public ImageView callBarbero;
         public View view;
+        public ANImageView fotoBarbero;
+
         public ViewHolder(View  v) {
             super(v);
             this.view = v;
             tviNombreBarbero = (TextView) v.findViewById(R.id.tviNombreBarbero);
             callBarbero = (ImageView) v.findViewById(R.id.callBarbero);
+            fotoBarbero = (ANImageView) v.findViewById(R.id.iviFotoBarbero);
             //iviPhoto= (ImageView) v.findViewById(R.id.iviPhoto);
         }
     }
@@ -61,8 +70,15 @@ public class BarberoAdapter extends RecyclerView.Adapter<BarberoAdapter.ViewHold
     public void onBindViewHolder(BarberoAdapter.ViewHolder holder, int position) {
         final BarberosEntity barberosEntity = barberosEntities.get(position);
         final int itemPosition = position;
-        final String barberoName = barberosEntity.getName();
+        final String barberoName = barberosEntity.getvName();
         holder.tviNombreBarbero.setText(barberoName);
+
+
+        holder.fotoBarbero.setDefaultImageResId(R.mipmap.ic_launcher);
+        holder.fotoBarbero.setErrorImageResId(R.mipmap.ic_launcher);
+        //holder.fotoBarberia.setImageUrl(barberiaEntity.getvFoto());
+        holder.fotoBarbero.setImageUrl("https://picsum.photos/300/300/?image=" + barberosEntity.getId());
+
         holder.tviNombreBarbero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

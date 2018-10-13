@@ -6,4 +6,8 @@ public class WebService {
     public static String ListarBarberias(){
         return BASE_URL + "barberias";
     }
+
+    public static String ListarBarberos(){
+        return BASE_URL + "barberos" ;
+    }
 }
