@@ -35,4 +35,5 @@ ext {
     // App dependencies
     supportLibraryVersion = '26.1.0'
     junitVersion = '4.12'
+    networking = '1.0.0'
 }

@@ -30,4 +30,5 @@ dependencies {
 
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation "com.amitshekhar.android:android-networking:$rootProject.networking"
 }
