@@ -9,7 +9,16 @@ public class BarberiaEntity implements Serializable {
     private String telefono;
     private String email;
     private String direccion;
+    private String descripcion;
     private String foto;
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public String getFoto() {
         return foto;

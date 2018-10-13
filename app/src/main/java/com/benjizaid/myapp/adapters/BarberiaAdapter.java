@@ -27,6 +27,7 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
 
     public interface AdapterCallback {
         void onClickCallback(BarberiaEntity item);
+        void onClickNameBarberia(BarberiaEntity item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -68,6 +69,15 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
             public void onClick(View v) {
                 if(callback!=null){
                     callback.onClickCallback(barberiaEntity);
+                }
+            }
+        });
+
+        holder.tviNombreBerberia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(callback!=null){
+                    callback.onClickNameBarberia(barberiaEntity);
                 }
             }
         });

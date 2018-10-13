@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.benjizaid.myapp.R;
+import com.benjizaid.myapp.model.BarberiaEntity;
 import com.benjizaid.myapp.model.BarberosEntity;
 
 import java.util.List;
@@ -25,17 +26,19 @@ public class BarberoAdapter extends RecyclerView.Adapter<BarberoAdapter.ViewHold
 
     public interface AdapterCallBackBarbero{
         void onClickCallback(BarberosEntity item);
+        void onClickNameBarbero(BarberosEntity item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView tviNombreBarbero;
-        //public ImageView iviPhoto;
+        public ImageView callBarbero;
         public View view;
         public ViewHolder(View  v) {
             super(v);
             this.view = v;
             tviNombreBarbero = (TextView) v.findViewById(R.id.tviNombreBarbero);
+            callBarbero = (ImageView) v.findViewById(R.id.callBarbero);
             //iviPhoto= (ImageView) v.findViewById(R.id.iviPhoto);
         }
     }
@@ -56,10 +59,28 @@ public class BarberoAdapter extends RecyclerView.Adapter<BarberoAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(BarberoAdapter.ViewHolder holder, int position) {
-        BarberosEntity barberosEntity = barberosEntities.get(position);
+        final BarberosEntity barberosEntity = barberosEntities.get(position);
         final int itemPosition = position;
         final String barberoName = barberosEntity.getName();
         holder.tviNombreBarbero.setText(barberoName);
+        holder.tviNombreBarbero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(callback!=null){
+                    callback.onClickNameBarbero(barberosEntity);
+                }
+            }
+        });
+
+        holder.callBarbero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(callback!=null){
+                    callback.onClickCallback(barberosEntity);
+                }
+            }
+        });
+
     }
 
     @Override

@@ -1,12 +1,17 @@
 package com.benjizaid.myapp.fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -53,6 +58,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     private RecyclerView recyclerViewBarberias;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private static final int MAKE_CALL_PERMISSION_REQUEST_CODE = 1;
 
     public BarberiasFragment() {
         // Required empty public constructor
@@ -91,6 +97,11 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_barberias, container, false);
         ui(view);
+
+        if (!checkPermission(Manifest.permission.CALL_PHONE)) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, MAKE_CALL_PERMISSION_REQUEST_CODE);
+        }
+
         return view;
     }
 
@@ -160,6 +171,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         barberiaEntity.setEmail("pedro@gmail.com");
         barberiaEntity.setTelefono("92835056");
         barberiaEntity.setDireccion("AAAAAAAAAAAAAA");
+        barberiaEntity.setDescripcion("BARBERIA - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.");
         barberiaEntity.setFoto("mipmap-hdpi/ic_next-png");
 
 
@@ -169,6 +181,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         barberiaEntity1.setEmail("carlos@gmail.com");
         barberiaEntity1.setTelefono("96859685");
         barberiaEntity1.setDireccion("AX22222222222222");
+        barberiaEntity1.setDescripcion("BARBERIA-1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.");
         barberiaEntity1.setFoto("mipmap-hdpi/ic_next-png");
 
         data = new ArrayList<>();
@@ -182,7 +195,6 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             startActivity(intent);
         }
-
     }
 
     private BarberiaEntity first(){
@@ -192,12 +204,41 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         return null;
     }
 
+    private boolean checkPermission(String permission) {
+        return ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED;
+    }
 
     @Override
     public void onClickCallback(BarberiaEntity item) {
-        Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
+        if (checkPermission(Manifest.permission.CALL_PHONE)) {
+            String dial = "tel:" + item.getTelefono();
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+        } else {
+            Toast.makeText(getActivity(), "Permission Call Phone denied", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        Intent i = new Intent(getActivity(), BarberiaDetalleActivity.class);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch(requestCode) {
+            case MAKE_CALL_PERMISSION_REQUEST_CODE :
+                if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Toast.makeText(getActivity(), "You can call the number by clicking on the button", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
+    }
+
+    @Override
+    public void onClickNameBarberia(BarberiaEntity item) {
+        if(data!=null){
+            Intent intent = new Intent(getActivity(), BarberiaDetalleActivity.class);
+            intent.putExtra("BARBERIA", item);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                startActivity(intent);
+            }
+        }
+
 
     }
 }

@@ -1,10 +1,16 @@
 package com.benjizaid.myapp.fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +19,13 @@ import android.widget.ListView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.benjizaid.myapp.BarberosDetallesActivity;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.adapters.BarberoAdapter;
 import com.benjizaid.myapp.interfaces.OnBarberosListener;
+import com.benjizaid.myapp.model.BarberiaEntity;
 import com.benjizaid.myapp.model.BarberosEntity;
 
 import java.util.ArrayList;
@@ -51,6 +59,8 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
 
     private RecyclerView recyclerViewBarbero;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private static final int MAKE_CALL_PERMISSION_REQUEST_CODE = 1;
 
     public BarberosFragment() {
         // Required empty public constructor
@@ -89,6 +99,11 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_barberos, container, false);
         ui(view);
+
+        if (!checkPermission(Manifest.permission.CALL_PHONE)) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, MAKE_CALL_PERMISSION_REQUEST_CODE);
+        }
+
         return view;
     }
 
@@ -169,8 +184,39 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
         return null;
     }
 
+    private boolean checkPermission(String permission) {
+        return ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch(requestCode) {
+            case MAKE_CALL_PERMISSION_REQUEST_CODE :
+                if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Toast.makeText(getActivity(), "You can call the number by clicking on the button", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
+    }
+
     @Override
     public void onClickCallback(BarberosEntity item) {
+        if (checkPermission(Manifest.permission.CALL_PHONE)) {
+            String dial = "tel:" + item.getTelefono();
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+        } else {
+            Toast.makeText(getActivity(), "Permission Call Phone denied", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    @Override
+    public void onClickNameBarbero(BarberosEntity item) {
+        if(data!=null){
+            Intent intent = new Intent(getActivity(), BarberosDetallesActivity.class);
+            intent.putExtra("BARBEROS", item);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                startActivity(intent);
+            }
+        }
     }
 }
