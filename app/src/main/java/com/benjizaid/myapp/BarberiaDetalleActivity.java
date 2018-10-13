@@ -45,8 +45,8 @@ public class BarberiaDetalleActivity extends BaseActivity {
 
     private void populate(){
         if(barberiaEntity!=null){
-            txtNombreBarberiaDetalle.setText(barberiaEntity.getName());
-            txtDescripcionBarberiaDetalle.setText(barberiaEntity.getDescripcion());
+            txtNombreBarberiaDetalle.setText(barberiaEntity.getvName());
+            txtDescripcionBarberiaDetalle.setText(barberiaEntity.getvDescripcion());
         }
 
     }

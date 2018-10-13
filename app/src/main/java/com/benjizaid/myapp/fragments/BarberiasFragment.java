@@ -20,13 +20,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.benjizaid.myapp.BarberiaDetalleActivity;
 import com.benjizaid.myapp.BarberosDetallesActivity;
 import com.benjizaid.myapp.NavigationActivity;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.adapters.BarberiaAdapter;
+import com.benjizaid.myapp.app.WebService;
 import com.benjizaid.myapp.eventos.RecyclerTouchListener;
 import com.benjizaid.myapp.interfaces.ClickListener;
 import com.benjizaid.myapp.interfaces.OnBarberiaListener;
@@ -34,6 +40,8 @@ import com.benjizaid.myapp.interfaces.OnBarberosListener;
 import com.benjizaid.myapp.interfaces.OnTabListener;
 import com.benjizaid.myapp.model.BarberiaEntity;
 import com.benjizaid.myapp.model.BarberosEntity;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,10 +61,13 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     //private OnTabListener mListener;
     private OnBarberosListener mListener;
     private ListView lstBarberia;
-    private List<BarberiaEntity> data;
+    private List<BarberiaEntity> listaBaberias;
 
     private RecyclerView recyclerViewBarberias;
+    private BarberiaAdapter barberiaAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    ProgressBar progressBar;
 
     private static final int MAKE_CALL_PERMISSION_REQUEST_CODE = 1;
 
@@ -64,14 +75,6 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BarberiasFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static BarberiasFragment newInstance(String param1, String param2) {
         BarberiasFragment fragment = new BarberiasFragment();
@@ -91,10 +94,19 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         }
     }
 
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        listaBaberias = new ArrayList<>();
+        barberiaAdapter = new BarberiaAdapter(getActivity(), this.listaBaberias, this);
+        recyclerViewBarberias.setAdapter(barberiaAdapter);
+        getBarberias();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_barberias, container, false);
         ui(view);
 
@@ -123,47 +135,19 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         mListener = null;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getBarberias();
-        recyclerViewBarberias.setAdapter(new BarberiaAdapter(getActivity(), this.data, this ));
-        //BarberiaAdapter barberiaAdapter = new BarberiaAdapter(data, getActivity());
 
+    private void ui(View view) {
 
-        /*BarberiaAdapter barberiaAdapter = new BarberiaAdapter(data, getActivity());
-        lstBarberia.setAdapter(barberiaAdapter);
-
-        if(mListener!=null)mListener.renderFirstBarberia(first());*/
-    }
-
-
-
-    private void ui(View view){
-
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         recyclerViewBarberias = (RecyclerView) view.findViewById(R.id.lstBarberias);
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewBarberias.setLayoutManager(mLayoutManager);
-/*
-        recyclerViewBarberias.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerViewBarberias, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                if(data!=null){
-                    BarberiaEntity barberiaEntity = data.get(position);
-                    goToDetalleBarberia(barberiaEntity);
-                }
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
-*/
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void getBarberias() {
+        /*
         //1. DATA
         BarberiaEntity barberiaEntity= new BarberiaEntity();
         barberiaEntity.setId(1);
@@ -187,9 +171,53 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         data = new ArrayList<>();
         data.add(barberiaEntity);
         data.add(barberiaEntity1);
+*/
+        AndroidNetworking.get(WebService.ListarBarberias())
+                //.setTag("test")
+                .setPriority(Priority.LOW)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        try {
+
+                            //listaBaberias
+                            BarberiaEntity item;
+                            for (int i = 0; i < response.length(); i++) {
+                                item = new BarberiaEntity();
+                                item
+                                        //.setbActivo(response.getJSONObject(i).getBoolean("bActivo"))
+                                        .setId(response.getJSONObject(i).getInt("id"))
+                                        .setvDescripcion(response.getJSONObject(i).getString("vDescripcion"))
+                                        .setvDireccion(response.getJSONObject(i).getString("vDireccion"))
+                                        .setvEmail(response.getJSONObject(i).getString("vEmail"))
+                                        .setvFoto(response.getJSONObject(i).getString("vFoto"))
+                                        .setvLatitud(response.getJSONObject(i).getDouble("vLatitud"))
+                                        .setvLongitud(response.getJSONObject(i).getDouble("vLongitud"))
+                                        .setvName(response.getJSONObject(i).getString("vName"))
+                                        .setvTelefono(response.getJSONObject(i).getString("vTelefono"));
+
+                                listaBaberias.add(item);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        progressBar.setVisibility(View.GONE);
+
+                        barberiaAdapter.setBarberiaEntities(listaBaberias);
+                        barberiaAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
     }
 
-    private void goToDetalleBarberia(BarberiaEntity barberiaEntity){
+    private void goToDetalleBarberia(BarberiaEntity barberiaEntity) {
         Intent intent = new Intent(getActivity(), BarberiaDetalleActivity.class);
         intent.putExtra("BARBERIA", barberiaEntity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -197,9 +225,9 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         }
     }
 
-    private BarberiaEntity first(){
-        if(data!=null){
-            return data.get(0);
+    private BarberiaEntity first() {
+        if (listaBaberias != null) {
+            return listaBaberias.get(0);
         }
         return null;
     }
@@ -211,7 +239,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     @Override
     public void onClickCallback(BarberiaEntity item) {
         if (checkPermission(Manifest.permission.CALL_PHONE)) {
-            String dial = "tel:" + item.getTelefono();
+            String dial = "tel:" + item.getvTelefono();
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
         } else {
             Toast.makeText(getActivity(), "Permission Call Phone denied", Toast.LENGTH_SHORT).show();
@@ -220,8 +248,8 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch(requestCode) {
-            case MAKE_CALL_PERMISSION_REQUEST_CODE :
+        switch (requestCode) {
+            case MAKE_CALL_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(getActivity(), "You can call the number by clicking on the button", Toast.LENGTH_SHORT).show();
                 }
@@ -231,7 +259,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
 
     @Override
     public void onClickNameBarberia(BarberiaEntity item) {
-        if(data!=null){
+        if (listaBaberias != null) {
             Intent intent = new Intent(getActivity(), BarberiaDetalleActivity.class);
             intent.putExtra("BARBERIA", item);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

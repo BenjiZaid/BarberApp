@@ -4,67 +4,107 @@ import java.io.Serializable;
 
 public class BarberiaEntity implements Serializable {
 
+    private boolean bActivo;
     private int id;
-    private String name;
-    private String telefono;
-    private String email;
-    private String direccion;
-    private String descripcion;
-    private String foto;
+    private String vDescripcion;
+    private String vDireccion;
+    private String vEmail;
+    private String vFoto;
+    private Double vLatitud;
+    private Double vLongitud;
+    private String vName;
+    private String vTelefono;
 
-    public String getDescripcion() {
-        return descripcion;
+    public BarberiaEntity() {
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public boolean isbActivo() {
+        return bActivo;
     }
 
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public BarberiaEntity setbActivo(boolean bActivo) {
+        this.bActivo = bActivo;
+        return this;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public BarberiaEntity setId(int id) {
         this.id = id;
+        return this;
     }
 
-    public String getName() {
-        return name;
+    public String getvDescripcion() {
+        return vDescripcion;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public BarberiaEntity setvDescripcion(String vDescripcion) {
+        this.vDescripcion = vDescripcion;
+        return this;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getvDireccion() {
+        return vDireccion;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public BarberiaEntity setvDireccion(String vDireccion) {
+        this.vDireccion = vDireccion;
+        return this;
     }
 
-    public String getEmail() {
-        return email;
+    public String getvEmail() {
+        return vEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public BarberiaEntity setvEmail(String vEmail) {
+        this.vEmail = vEmail;
+        return this;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getvFoto() {
+        return vFoto;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public BarberiaEntity setvFoto(String vFoto) {
+        this.vFoto = vFoto;
+        return this;
+    }
+
+    public Double getvLatitud() {
+        return vLatitud;
+    }
+
+    public BarberiaEntity setvLatitud(Double vLatitud) {
+        this.vLatitud = vLatitud;
+        return this;
+    }
+
+    public Double getvLongitud() {
+        return vLongitud;
+    }
+
+    public BarberiaEntity setvLongitud(Double vLongitud) {
+        this.vLongitud = vLongitud;
+        return this;
+    }
+
+    public String getvName() {
+        return vName;
+    }
+
+    public BarberiaEntity setvName(String vName) {
+        this.vName = vName;
+        return this;
+    }
+
+    public String getvTelefono() {
+        return vTelefono;
+    }
+
+    public BarberiaEntity setvTelefono(String vTelefono) {
+        this.vTelefono = vTelefono;
+        return this;
     }
 }
