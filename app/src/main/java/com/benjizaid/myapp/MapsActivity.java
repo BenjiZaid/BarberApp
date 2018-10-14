@@ -53,6 +53,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng barberia = new LatLng(barberiaEntity.getvLatitud(), barberiaEntity.getvLongitud());
         mMap.addMarker(new MarkerOptions().position(barberia).title(barberiaEntity.getvName()));
+
+        mMap.setMinZoomPreference(15);
+        //mMap.setMaxZoomPreference(20);
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(barberia));
     }
 }
