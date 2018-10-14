@@ -1,11 +1,14 @@
 package com.benjizaid.myapp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.benjizaid.myapp.fragments.BarberiasFragment;
@@ -96,5 +99,27 @@ public class NavigationActivity extends AppCompatActivity implements OnBarberosL
     @Override
     public void renderFirstBarberia(BarberiaEntity barberiaEntity) {
         selectedItemBarberia(barberiaEntity);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+// Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.logout) {
+            SharedPreferences sharedPreferences  = getApplicationContext().getSharedPreferences(getString(R.string.keypreference), MODE_PRIVATE);
+            sharedPreferences.edit().clear().commit();
+
+            Intent intent = new Intent(NavigationActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

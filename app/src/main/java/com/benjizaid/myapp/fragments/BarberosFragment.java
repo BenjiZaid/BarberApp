@@ -1,7 +1,9 @@
 package com.benjizaid.myapp.fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -250,6 +252,23 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
 
     @Override
     public void onClickFavorito(BarberosEntity item, final int position) {
+
+        if (IdUsuario==0){
+            AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity())
+                    .setTitle(getString(R.string.app_name))
+                    .setMessage("Debe logearse o Registrarse para grabar favoritos")
+                    .setIcon(R.mipmap.ic_launcher)
+                    .setCancelable(false)
+
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+            dialogo.show();
+            return;
+        }
         String Url = "";
 
         if (item.getbActivo() == 1)
