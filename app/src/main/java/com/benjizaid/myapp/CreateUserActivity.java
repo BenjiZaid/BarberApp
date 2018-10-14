@@ -1,7 +1,9 @@
 package com.benjizaid.myapp;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.benjizaid.myapp.app.Functions;
 import com.benjizaid.myapp.app.WebService;
 import com.benjizaid.myapp.model.UsuarioEntity;
 
@@ -51,26 +54,89 @@ public class CreateUserActivity extends AppCompatActivity {
         public void onClick(View view) {
             //vams a asumirq ue registra todos
 
+            String password = txtPassword.getText().toString().trim(),
+                    repetirPasswsor = txtRepetirPassword.getText().toString().trim(),
+                    nombres = txtNombresUsuario.getText().toString(),
+                    apellidos = txtApellidosUsuario.getText().toString().trim(),
+                    email = txtEmail.getText().toString().trim(),
+                    direccion = txtDireccion.getText().toString().trim(),
+                    telefono = txtTelefono.getText().toString().trim();
+
+            if (apellidos.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Apellidos", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (nombres.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Nombres", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (email.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Email", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (direccion.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Dirección", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (telefono.length() != 9) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese telefono válido (9 caracteres)", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (password.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Password", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (!password.equals(repetirPasswsor)){
+                Functions.mostrarAlerta(CreateUserActivity.this, "Password no son Iguales", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
 
             final ProgressDialog mProgressDialog = new ProgressDialog(CreateUserActivity.this);
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.setMessage("Registrando...");
             mProgressDialog.show();
-
-            /*
-            addBodyParameter
-            addHeaders
-            addPathParameter
-            addQueryParameter
-             */
-
-            String password = txtPassword.getText().toString(),
-                    nombres = txtNombresUsuario.getText().toString(),
-                    apellidos = txtApellidosUsuario.getText().toString(),
-                    email = txtEmail.getText().toString(),
-                    direccion = txtDireccion.getText().toString(),
-                    telefono = txtTelefono.getText().toString();
-
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -104,13 +170,19 @@ public class CreateUserActivity extends AppCompatActivity {
 
                                 int IdUsuario = jsonObject.getInt("iRespuesta");
 
-                                if (IdUsuario == -2){
+                                if (IdUsuario == -2) {
                                     Toast.makeText(CreateUserActivity.this, jsonObject.getString("vRespuesta"), Toast.LENGTH_SHORT).show();
-                                }else if (IdUsuario == 0) {
+                                } else if (IdUsuario == 0) {
                                     Toast.makeText(CreateUserActivity.this, "Error al crear usuario", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Intent intent = new Intent(CreateUserActivity.this, NavigationActivity.class);
                                     intent.putExtra("id", IdUsuario);
+
+                                    SharedPreferences mPrefs = getSharedPreferences(getString(R.string.keypreference), MODE_PRIVATE); //add key
+                                    SharedPreferences.Editor editor = mPrefs.edit();
+                                    editor.putInt("USUARIO", IdUsuario);
+                                    editor.apply();
+
 
                                     /*PARA QUE NO SE REGRESE AL LOGIN*/
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
