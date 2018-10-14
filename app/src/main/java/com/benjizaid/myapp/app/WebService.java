@@ -10,4 +10,9 @@ public class WebService {
     public static String ListarBarberos(){
         return BASE_URL + "barberos" ;
     }
+
+    public static String login(String email,String password){
+        return BASE_URL + "login/?vEmail="+ email + "&vPassword=" + password;
+    }
+
 }
