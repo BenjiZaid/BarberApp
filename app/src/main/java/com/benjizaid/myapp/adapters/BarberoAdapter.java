@@ -63,8 +63,8 @@ public class BarberoAdapter extends RecyclerView.Adapter<BarberoAdapter.ViewHold
 
         holder.fotoBarbero.setDefaultImageResId(R.mipmap.ic_launcher);
         holder.fotoBarbero.setErrorImageResId(R.mipmap.ic_launcher);
-        //holder.fotoBarberia.setImageUrl(barberiaEntity.getvFoto());
-        holder.fotoBarbero.setImageUrl("https://picsum.photos/300/300/?image=" + barberosEntity.getId());
+        holder.fotoBarbero.setImageUrl(barberosEntity.getvFoto());
+        //holder.fotoBarbero.setImageUrl("https://picsum.photos/300/300/?image=" + barberosEntity.getId());
 
         if (barberosEntity.getbActivo() == 0) {
             holder.sendFavorito.setImageResource(R.drawable.ic_star_border_black_24dp);

@@ -61,9 +61,15 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         holder.tviNombreBerberia.setText(barberiaName);
 
         holder.fotoBarberia.setDefaultImageResId(R.mipmap.ic_launcher);
-        holder.fotoBarberia.setErrorImageResId(R.mipmap.ic_launcher);
-        //holder.fotoBarberia.setImageUrl(barberiaEntity.getvFoto());
-        holder.fotoBarberia.setImageUrl("https://picsum.photos/300/300/?image=" + barberiaEntity.getId());
+        holder.fotoBarberia.setErrorImageResId(R.drawable.ic_error_outline_black_24dp);
+        holder.fotoBarberia.setImageUrl(barberiaEntity.getvFoto());
+
+
+        //holder.fotoBarberia.setImageUrl("https://picsum.photos/300/300/?image=" + barberiaEntity.getId());
+        //holder.fotoBarberia.setImageUrl("http://drive.google.com/uc?export=view&id=1N-tdaSDM-bI2gUj-eoZP94HK-pmlOov1");
+
+
+
 
         if (barberiaEntity.getbActivo() == 0) {
             holder.sendFavorito.setImageResource(R.drawable.ic_star_border_black_24dp);

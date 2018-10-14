@@ -1,111 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BarberosDetallesActivity" >
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/ivFotoPrincipalBarberos"
-        android:layout_width="0dp"
-        android:layout_height="96dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+    <!--imgview.setScaleType(ScaleType.FIT_XY);-->
 
-    <ImageView
-        android:id="@+id/ivFotoBarberos"
-        android:layout_width="112dp"
-        android:layout_height="112dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivFotoPrincipalBarberos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivFotoPrincipalBarberos"
-        app:layout_constraintVertical_bias="0.45"
-         />
+    <com.androidnetworking.widget.ANImageView
+        android:id="@+id/fotoBarbero"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/txtNombreBarberoDetalle"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvNombre"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="13K"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.106"
-        app:layout_constraintStart_toEndOf="@+id/ivFotoBarberos"
-        app:layout_constraintTop_toBottomOf="@+id/ivFotoPrincipalBarberos" />
-
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="400"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.594"
-        app:layout_constraintStart_toEndOf="@+id/ivFotoBarberos"
-        app:layout_constraintTop_toBottomOf="@+id/ivFotoPrincipalBarberos" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="following"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.732"
-        app:layout_constraintStart_toEndOf="@+id/ivFotoBarberos"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/txtDescripcionBarberoDetalle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:padding="16dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivFotoBarberos"
-        app:layout_constraintVertical_bias="0.072" />
-
-   <!-- <TextView
-        android:id="@+id/txtNombreBarberoDetalle"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:adjustViewBounds="true"
-        android:text="New Text"
         android:gravity="center"
-        android:textSize="40sp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />-->
+        android:text="Edwar Gaspar"
+        android:textSize="15dp"
+        android:textStyle="bold" />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvCortes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>--><!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--tools:context=".BarberosDetallesActivity" >-->
+
+    <!--<ImageView--><!--android:id="@+id/ivFotoPrincipalBarberos"--><!--android:layout_width="0dp"--><!--android:layout_height="96dp"--><!--android:scaleType="centerCrop"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toTopOf="parent"--><!--/>-->
+
+    <!--<ImageView--><!--android:id="@+id/ivFotoBarberos"--><!--android:layout_width="112dp"--><!--android:layout_height="112dp"--><!--android:layout_marginEnd="8dp"--><!--android:layout_marginStart="8dp"--><!--android:layout_marginTop="8dp"--><!--app:layout_constraintBottom_toBottomOf="@+id/ivFotoPrincipalBarberos"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintHorizontal_bias="0.086"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toBottomOf="@+id/ivFotoPrincipalBarberos"--><!--app:layout_constraintVertical_bias="0.45"--><!--/>-->
+
+    <!--<TextView--><!--android:id="@+id/txtNombreBarberoDetalle"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="8dp"--><!--android:text="13K"--><!--android:textStyle="bold"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintHorizontal_bias="0.106"--><!--app:layout_constraintStart_toEndOf="@+id/ivFotoBarberos"--><!--app:layout_constraintTop_toBottomOf="@+id/ivFotoPrincipalBarberos" />-->
+
+
+    <!--<TextView--><!--android:id="@+id/textView3"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginEnd="8dp"--><!--android:layout_marginStart="8dp"--><!--android:layout_marginTop="8dp"--><!--android:text="400"--><!--android:textStyle="bold"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintHorizontal_bias="0.594"--><!--app:layout_constraintStart_toEndOf="@+id/ivFotoBarberos"--><!--app:layout_constraintTop_toBottomOf="@+id/ivFotoPrincipalBarberos" />-->
+
+    <!--<TextView--><!--android:id="@+id/textView4"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginEnd="8dp"--><!--android:layout_marginStart="8dp"--><!--android:layout_marginTop="8dp"--><!--android:text="following"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintHorizontal_bias="0.732"--><!--app:layout_constraintStart_toEndOf="@+id/ivFotoBarberos"--><!--app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
+
+    <!--<TextView--><!--android:id="@+id/txtDescripcionBarberoDetalle"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="8dp"--><!--android:layout_marginEnd="8dp"--><!--android:layout_marginStart="8dp"--><!--android:layout_marginTop="8dp"--><!--android:padding="16dp"--><!--android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."--><!--app:layout_constraintBottom_toBottomOf="parent"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintHorizontal_bias="0.0"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toBottomOf="@+id/ivFotoBarberos"--><!--app:layout_constraintVertical_bias="0.072" />-->
+
+    <!--&lt;!&ndash; <TextView--><!--android:id="@+id/txtNombreBarberoDetalle"--><!--android:layout_width="0dp"--><!--android:layout_height="200dp"--><!--android:adjustViewBounds="true"--><!--android:text="New Text"--><!--android:gravity="center"--><!--android:textSize="40sp"--><!--android:layout_marginLeft="8dp"--><!--app:layout_constraintLeft_toLeftOf="parent"--><!--android:layout_marginRight="8dp"--><!--app:layout_constraintRight_toRightOf="parent"--><!--app:layout_constraintTop_toTopOf="parent"--><!--android:layout_marginTop="8dp"--><!--app:layout_constraintBottom_toBottomOf="parent"--><!--android:layout_marginBottom="8dp"--><!--app:layout_constraintVertical_bias="0.0"--><!--android:layout_marginStart="8dp"--><!--android:layout_marginEnd="8dp" />&ndash;&gt;-->
+
+    <!--</android.support.constraint.ConstraintLayout>-->
