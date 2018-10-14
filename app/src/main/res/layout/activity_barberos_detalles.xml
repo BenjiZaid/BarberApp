@@ -3,8 +3,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--imgview.setScaleType(ScaleType.FIT_XY);-->
-
     <com.androidnetworking.widget.ANImageView
         android:id="@+id/fotoBarbero"
         android:layout_width="match_parent"
@@ -17,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Edwar Gaspar"
         android:textSize="15dp"
         android:textStyle="bold" />
 

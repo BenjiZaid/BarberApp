@@ -39,4 +39,9 @@ public class WebService {
         return BASE_URL + "cortesbarberos/?idBarbero=" + idBarbero;
     }
 
+    public static String listarBarberosXBarberia(int idUsuario,int idBarberia){
+        return BASE_URL + "barberosporbarberia/?id="+ idUsuario + "&idbarberia="+ idBarberia;
+    }
+
+
 }

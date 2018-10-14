@@ -235,6 +235,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
         if (listaBaberias != null) {
             Intent intent = new Intent(getActivity(), BarberiaDetalleActivity.class);
             intent.putExtra("BARBERIA", item);
+            intent.putExtra("IdUsuario", IdUsuario);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 startActivity(intent);
             }
