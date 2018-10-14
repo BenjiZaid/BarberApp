@@ -1,6 +1,8 @@
 package com.benjizaid.myapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,20 +51,10 @@ public class CreateUserActivity extends AppCompatActivity {
     View.OnClickListener btnCrearusuarioOnClickListenerOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //vams a asumirq ue registra todos
-
-
             final ProgressDialog mProgressDialog = new ProgressDialog(CreateUserActivity.this);
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.setMessage("Registrando...");
             mProgressDialog.show();
-
-            /*
-            addBodyParameter
-            addHeaders
-            addPathParameter
-            addQueryParameter
-             */
 
             String password = txtPassword.getText().toString(),
                     nombres = txtNombresUsuario.getText().toString(),
@@ -86,12 +78,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
             AndroidNetworking.post(WebService.registerUser())
                     .addJSONObjectBody(jsonObject) // posting json
-//                    .addBodyParameter("vPassword",password)
-//                    .addBodyParameter("vNombres", nombres)
-//                    .addBodyParameter("vApellidos",apellidos)
-//                    .addBodyParameter("vEmail",email)
-//                    .addBodyParameter("vDireccion",direccion)
-                    .addBodyParameter("vTelefono", telefono)
                     .setPriority(Priority.LOW)
                     .build()
                     .getAsJSONObject(new JSONObjectRequestListener() {
@@ -105,9 +91,33 @@ public class CreateUserActivity extends AppCompatActivity {
                                 int IdUsuario = jsonObject.getInt("iRespuesta");
 
                                 if (IdUsuario == -2){
-                                    Toast.makeText(CreateUserActivity.this, jsonObject.getString("vRespuesta"), Toast.LENGTH_SHORT).show();
-                                }else if (IdUsuario == 0) {
-                                    Toast.makeText(CreateUserActivity.this, "Error al crear usuario", Toast.LENGTH_SHORT).show();
+                                    AlertDialog.Builder dialogo = new AlertDialog.Builder(CreateUserActivity.this)
+                                            .setTitle(getString(R.string.app_name))
+                                            .setMessage(jsonObject.getString("vRespuesta"))
+                                            .setIcon(R.mipmap.ic_launcher)
+                                            .setCancelable(false)
+
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                    dialogo.show();
+                                }else if (IdUsuario < 0) {
+                                    AlertDialog.Builder dialogo = new AlertDialog.Builder(CreateUserActivity.this)
+                                            .setTitle(getString(R.string.app_name))
+                                            .setMessage(jsonObject.getString("vRespuesta"))
+                                            .setIcon(R.mipmap.ic_launcher)
+                                            .setCancelable(false)
+
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                    dialogo.show();
                                 } else {
                                     Intent intent = new Intent(CreateUserActivity.this, NavigationActivity.class);
                                     intent.putExtra("id", IdUsuario);
@@ -115,21 +125,33 @@ public class CreateUserActivity extends AppCompatActivity {
                                     /*PARA QUE NO SE REGRESE AL LOGIN*/
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
                                     startActivity(intent);
 
                                     finish();
+
+
+
                                 }
                             } catch (Exception ex) {
-//                                Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder dialogo = new AlertDialog.Builder(CreateUserActivity.this)
+                                        .setTitle(getString(R.string.app_name))
+                                        .setMessage("Error")
+                                        .setIcon(R.mipmap.ic_launcher)
+                                        .setCancelable(false)
+
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        });
+                                dialogo.show();
                             }
                         }
 
                         @Override
                         public void onError(ANError anError) {
                             mProgressDialog.dismiss();
-//                            Toast.makeText(LoginActivity.this, "Error en el servicio", Toast.LENGTH_SHORT).show();
 
                         }
                     });
