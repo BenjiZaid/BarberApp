@@ -54,6 +54,83 @@ public class CreateUserActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             //vams a asumirq ue registra todos
+            String password = txtPassword.getText().toString().trim(),
+                    repetirPasswsor = txtRepetirPassword.getText().toString().trim(),
+                    nombres = txtNombresUsuario.getText().toString(),
+                    apellidos = txtApellidosUsuario.getText().toString().trim(),
+                    email = txtEmail.getText().toString().trim(),
+                    direccion = txtDireccion.getText().toString().trim(),
+                    telefono = txtTelefono.getText().toString().trim();
+
+            if (apellidos.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Apellidos", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (nombres.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Nombres", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (email.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Email", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (direccion.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Dirección", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (telefono.length() != 9) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese telefono válido (9 caracteres)", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (password.length() == 0) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Password", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
+
+            if (!password.equals(repetirPasswsor)) {
+                Functions.mostrarAlerta(CreateUserActivity.this, "Password no son Iguales", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                return;
+            }
 
 
             final ProgressDialog mProgressDialog = new ProgressDialog(CreateUserActivity.this);
@@ -67,14 +144,6 @@ public class CreateUserActivity extends AppCompatActivity {
             addPathParameter
             addQueryParameter
              */
-
-            String password = txtPassword.getText().toString(),
-                    nombres = txtNombresUsuario.getText().toString(),
-                    apellidos = txtApellidosUsuario.getText().toString(),
-                    email = txtEmail.getText().toString(),
-                    direccion = txtDireccion.getText().toString(),
-                    telefono = txtTelefono.getText().toString();
-
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -102,9 +171,9 @@ public class CreateUserActivity extends AppCompatActivity {
 
                                 int IdUsuario = jsonObject.getInt("iRespuesta");
 
-                                if (IdUsuario == -2){
+                                if (IdUsuario == -2) {
                                     Toast.makeText(CreateUserActivity.this, jsonObject.getString("vRespuesta"), Toast.LENGTH_SHORT).show();
-                                }else if (IdUsuario == 0) {
+                                } else if (IdUsuario == 0) {
                                     Toast.makeText(CreateUserActivity.this, "Error al crear usuario", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Intent intent = new Intent(CreateUserActivity.this, NavigationActivity.class);
@@ -122,7 +191,6 @@ public class CreateUserActivity extends AppCompatActivity {
                                     startActivity(intent);
 
                                     finish();
-
 
 
                                 }
