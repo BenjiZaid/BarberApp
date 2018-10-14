@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -32,6 +33,8 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.benjizaid.myapp.BarberiaDetalleActivity;
+import com.benjizaid.myapp.LoginActivity;
+import com.benjizaid.myapp.NavigationActivity;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.adapters.BarberiaAdapter;
 import com.benjizaid.myapp.app.WebService;
@@ -85,6 +88,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             IdUsuario = getArguments().getInt(ARG_PARAM1);
         }
@@ -246,6 +250,8 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     @Override
     public void onClickFavorito(BarberiaEntity item, final int position) {
 
+        SharedPreferences mPrefs = getActivity().getSharedPreferences(getString(R.string.keypreference), getActivity().MODE_PRIVATE); //add key
+        IdUsuario = mPrefs.getInt("USUARIO", 0);
 
         if (IdUsuario==0){
             AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity())

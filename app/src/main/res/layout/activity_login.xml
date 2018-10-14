@@ -32,6 +32,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:padding="10dp"
+            android:maxLines="1"
+            android:singleLine="true"
             android:layout_marginBottom="5dp"
             android:hint="Username"/>
 
@@ -41,6 +43,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
             android:padding="10dp"
             android:hint="Password"/>
 

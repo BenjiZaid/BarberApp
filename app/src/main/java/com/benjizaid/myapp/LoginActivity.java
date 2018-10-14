@@ -49,6 +49,11 @@ public class LoginActivity extends BaseActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences mPrefs = getSharedPreferences(getString(R.string.keypreference), MODE_PRIVATE); //add key
+                SharedPreferences.Editor editor = mPrefs.edit();
+                editor.putInt("USUARIO", 0);
+                editor.apply();
+
                 gotoMain();
             }
         });
