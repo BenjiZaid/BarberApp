@@ -33,7 +33,6 @@
             android:background="@color/colorWhite"
             android:padding="10dp"
             android:layout_marginBottom="5dp"
-            android:text="benji.santillan@qw.gob.pe"
             android:hint="Username"/>
 
         <EditText
@@ -42,7 +41,6 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:padding="10dp"
-            android:text="123456"
             android:hint="Password"/>
 
         <Button
