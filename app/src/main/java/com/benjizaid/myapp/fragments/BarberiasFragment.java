@@ -50,11 +50,8 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int IdUsuario;
 
     //private OnFragmentInteractionListener mListener;
 
@@ -76,11 +73,10 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     }
 
     // TODO: Rename and change types and number of parameters
-    public static BarberiasFragment newInstance(String param1, String param2) {
+    public static BarberiasFragment newInstance(int id) {
         BarberiasFragment fragment = new BarberiasFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM1, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,8 +85,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            IdUsuario = getArguments().getInt(ARG_PARAM1);
         }
     }
 
@@ -147,32 +142,8 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     }
 
     private void getBarberias() {
-        /*
-        //1. DATA
-        BarberiaEntity barberiaEntity= new BarberiaEntity();
-        barberiaEntity.setId(1);
-        barberiaEntity.setName("Pedro Barberia");
-        barberiaEntity.setEmail("pedro@gmail.com");
-        barberiaEntity.setTelefono("92835056");
-        barberiaEntity.setDireccion("AAAAAAAAAAAAAA");
-        barberiaEntity.setDescripcion("BARBERIA - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.");
-        barberiaEntity.setFoto("mipmap-hdpi/ic_next-png");
 
-
-        BarberiaEntity barberiaEntity1= new BarberiaEntity();
-        barberiaEntity1.setId(2);
-        barberiaEntity1.setName("Carlos Barberia2");
-        barberiaEntity1.setEmail("carlos@gmail.com");
-        barberiaEntity1.setTelefono("96859685");
-        barberiaEntity1.setDireccion("AX22222222222222");
-        barberiaEntity1.setDescripcion("BARBERIA-1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.");
-        barberiaEntity1.setFoto("mipmap-hdpi/ic_next-png");
-
-        data = new ArrayList<>();
-        data.add(barberiaEntity);
-        data.add(barberiaEntity1);
-*/
-        AndroidNetworking.get(WebService.ListarBarberias())
+        AndroidNetworking.get(WebService.ListarBarberias(IdUsuario))
                 //.setTag("test")
                 .setPriority(Priority.LOW)
                 .build()
@@ -187,7 +158,7 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
                             for (int i = 0; i < response.length(); i++) {
                                 item = new BarberiaEntity();
                                 item
-                                        //.setbActivo(response.getJSONObject(i).getBoolean("bActivo"))
+                                        .setbActivo(response.getJSONObject(i).getInt("bActivo"))
                                         .setId(response.getJSONObject(i).getInt("id"))
                                         .setvDescripcion(response.getJSONObject(i).getString("vDescripcion"))
                                         .setvDireccion(response.getJSONObject(i).getString("vDireccion"))
@@ -267,6 +238,53 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
             }
         }
 
+
+    }
+
+    @Override
+    public void onClickFavorito(BarberiaEntity item) {
+        AndroidNetworking.get(WebService.ListarBarberias(IdUsuario))
+                //.setTag("test")
+                .setPriority(Priority.LOW)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        try {
+//activarbarberofavorito/?IDUsuario=&IDBarbero=
+                            //listaBaberias
+                            BarberiaEntity item;
+                            for (int i = 0; i < response.length(); i++) {
+                                item = new BarberiaEntity();
+                                item
+                                        .setbActivo(response.getJSONObject(i).getInt("bActivo"))
+                                        .setId(response.getJSONObject(i).getInt("id"))
+                                        .setvDescripcion(response.getJSONObject(i).getString("vDescripcion"))
+                                        .setvDireccion(response.getJSONObject(i).getString("vDireccion"))
+                                        .setvEmail(response.getJSONObject(i).getString("vEmail"))
+                                        .setvFoto(response.getJSONObject(i).getString("vFoto"))
+                                        .setvLatitud(response.getJSONObject(i).getDouble("vLatitud"))
+                                        .setvLongitud(response.getJSONObject(i).getDouble("vLongitud"))
+                                        .setvName(response.getJSONObject(i).getString("vName"))
+                                        .setvTelefono(response.getJSONObject(i).getString("vTelefono"));
+
+                                listaBaberias.add(item);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        progressBar.setVisibility(View.GONE);
+
+                        barberiaAdapter.setBarberiaEntities(listaBaberias);
+                        barberiaAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
 
     }
 }

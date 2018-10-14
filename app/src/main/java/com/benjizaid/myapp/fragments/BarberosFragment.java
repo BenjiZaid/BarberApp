@@ -51,11 +51,9 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int IdUsuario;
 
     //private OnTabListener mListener;
     private OnBarberosListener mListener;
@@ -76,20 +74,11 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BarberosFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static BarberosFragment newInstance(String param1, String param2) {
+    public static BarberosFragment newInstance(int id) {
         BarberosFragment fragment = new BarberosFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM1, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,8 +87,7 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            IdUsuario = getArguments().getInt(ARG_PARAM1);
         }
     }
 
@@ -157,30 +145,9 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
 
 
     private void getBarberos() {
-        /*
-        //1. DATA
-        BarberosEntity barberosEntity= new BarberosEntity();
-        barberosEntity.setId(1);
-        barberosEntity.setName("Pedro Palotes");
-        barberosEntity.setEmail("pedro@gmail.com");
-        barberosEntity.setTelefono("92835056");
-        barberosEntity.setDescripcion("XXXXXX");
-        barberosEntity.setFoto("mipmap-hdpi/ic_next-png");
 
-        BarberosEntity barberosEntity1= new BarberosEntity();
-        barberosEntity1.setId(2);
-        barberosEntity1.setName("Carlos Palotes");
-        barberosEntity1.setEmail("carlos@gmail.com");
-        barberosEntity1.setTelefono("96859685");
-        barberosEntity1.setDescripcion("AAAAAAAAA");
-        barberosEntity1.setFoto("mipmap-hdpi/ic_next-png");
 
-        data = new ArrayList<>();
-        data.add(barberosEntity);
-        data.add(barberosEntity1);
-        */
-
-        AndroidNetworking.get(WebService.ListarBarberos())
+        AndroidNetworking.get(WebService.ListarBarberos(IdUsuario))
                 .setPriority(Priority.LOW)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
@@ -193,7 +160,7 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 item = new BarberosEntity();
                                 item.setIDBarberia(jsonArray.getJSONObject(i).getInt("IDBarberia"))
-                                        //.setbActivo(jsonArray.getJSONObject(i).getString("bActivo"))
+                                        .setbActivo(jsonArray.getJSONObject(i).getInt("bActivo"))
                                         .setId(jsonArray.getJSONObject(i).getInt("id"))
                                         .setvDescripcion(jsonArray.getJSONObject(i).getString("vDescripcion"))
                                         .setvEmail(jsonArray.getJSONObject(i).getString("vEmail"))

@@ -28,8 +28,8 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
 
     public interface AdapterCallback {
         void onClickCallback(BarberiaEntity item);
-
         void onClickNameBarberia(BarberiaEntity item);
+        void onClickFavorito(BarberiaEntity item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -38,7 +38,8 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         public ImageView callBarberia;
         public View view;
 
-        private ANImageView fotoBarberia;
+        public ANImageView fotoBarberia;
+        public ImageView sendFavorito;
 
         public ViewHolder(View v) {
             super(v);
@@ -46,6 +47,7 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
             tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBarberia);
             callBarberia = (ImageView) v.findViewById(R.id.callBarberia);
             fotoBarberia = (ANImageView) v.findViewById(R.id.iviFotoBarberia);
+            sendFavorito = (ImageView) v.findViewById(R.id.sendFavorito);
         }
     }
 
@@ -79,6 +81,20 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         holder.fotoBarberia.setErrorImageResId(R.mipmap.ic_launcher);
         //holder.fotoBarberia.setImageUrl(barberiaEntity.getvFoto());
         holder.fotoBarberia.setImageUrl("https://picsum.photos/300/300/?image=" + barberiaEntity.getId());
+
+        if (barberiaEntity.getbActivo()==0){
+            holder.sendFavorito.setImageResource(R.drawable.ic_star_border_black_24dp);;
+        }else{
+            holder.sendFavorito.setImageResource(R.drawable.ic_star_black_24dp);;
+        }
+
+        holder.sendFavorito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickFavorito(barberiaEntity);
+            }
+        });
+
 
         holder.callBarberia.setOnClickListener(new View.OnClickListener() {
             @Override

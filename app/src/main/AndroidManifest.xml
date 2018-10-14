@@ -41,7 +41,9 @@
         <activity
             android:name=".BarberiaDetalleActivity"
             android:parentActivityName=".NavigationActivity" />
-        <activity android:name=".CreateUserActivity"></activity>
+        <activity android:name=".CreateUserActivity"
+            android:label="Crear Usuario"
+            android:parentActivityName=".LoginActivity"></activity>
     </application>
 
 </manifest>

@@ -20,6 +20,8 @@ public class NavigationActivity extends AppCompatActivity implements OnBarberosL
     private FragmentTransaction fragmentTransaction;
     private BottomNavigationView bottomNavigationView;
 
+    private int IdUsuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,9 @@ public class NavigationActivity extends AppCompatActivity implements OnBarberosL
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bundle b = getIntent().getExtras();
+        if(b != null)
+            IdUsuario = b.getInt("id");
 
 
         bottomNavigationView= findViewById(R.id.bottom_navigation);
@@ -39,10 +44,10 @@ public class NavigationActivity extends AppCompatActivity implements OnBarberosL
                 switch (item.getItemId()){
                     case R.id.actionBarberos:
                         tab=0;
-                        fragment = BarberosFragment.newInstance(null, null);
+                        fragment = BarberosFragment.newInstance(IdUsuario);
                         break;
                     case R.id.actionBarberias:
-                        fragment = BarberiasFragment.newInstance(null,null);
+                        fragment = BarberiasFragment.newInstance(IdUsuario);
                         tab=1;
                         break;
 
@@ -55,7 +60,7 @@ public class NavigationActivity extends AppCompatActivity implements OnBarberosL
             }
         });
 
-        changeFragment(BarberosFragment.newInstance(null,null));
+        changeFragment(BarberosFragment.newInstance(IdUsuario));
     }
 
     @Override

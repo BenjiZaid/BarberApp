@@ -6,33 +6,32 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:id="@+id/activity_create_user">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:id="@+id/linerlayoutHeader">
-        <ImageView
-            android:id="@+id/iviBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="8dp"
-            android:src="@mipmap/ic_back"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/colorWhite"
-            android:text="Create Account"/>
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:id="@+id/linerlayoutHeader">-->
+        <!--<ImageView-->
+            <!--android:id="@+id/iviBack"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:padding="8dp"-->
+            <!--android:src="@mipmap/ic_back"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="@color/colorWhite"-->
+            <!--android:text="Create Account"/>-->
+    <!--</LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_below="@id/linerlayoutHeader">
+        android:paddingRight="20dp">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +39,8 @@
             android:layout_marginTop="10dp"
             android:hint="Apellidos"
             android:id="@+id/txtApellidosUsuario"
-            android:textColorHint="@color/colorWhite"/>
+            android:textColorHint="@color/colorWhite"
+            android:text="HUIÑOCANA"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -49,7 +49,8 @@
             android:layout_marginTop="10dp"
             android:hint="Nombres"
             android:id="@+id/txtNombresUsuario"
-            android:textColorHint="@color/colorWhite"/>
+            android:textColorHint="@color/colorWhite"
+            android:text="JAVIER"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -58,35 +59,54 @@
             android:layout_marginTop="10dp"
             android:hint="Email"
             android:id="@+id/txtEmail"
-            android:textColorHint="@color/colorWhite"/>
+            android:textColorHint="@color/colorWhite"
+            android:text="JAVI@GMAIL.COM"/>
 
         <EditText
+            android:id="@+id/txtDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:hint="Direccion"
-            android:textColorHint="@color/colorWhite"/>
+            android:textColorHint="@color/colorWhite"
+            android:text="nose donde vivo"/>
 
         <EditText
+            android:id="@+id/txtTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:hint="Telefono"
+            android:textColorHint="@color/colorWhite"
+            android:text="954564654"/>
+
+
+        <EditText
+            android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColorHint="@color/colorWhite"/>
+            android:textColorHint="@color/colorWhite"
+            android:text="test"/>
 
         <EditText
+            android:id="@+id/txtRepetirPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:hint="Repeat password"
             android:inputType="textPassword"
-            android:textColorHint="@color/colorWhite"/>
+            android:textColorHint="@color/colorWhite"
+            android:text="test"/>
 
         <Button
+            android:id="@+id/btnCrearUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"

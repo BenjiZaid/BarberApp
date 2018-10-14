@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class BarberosEntity implements Serializable {
 
     private int IDBarberia;
-    private boolean bActivo;
+    private int bActivo;
     private int id;
     private String vDescripcion;
     private String vEmail;
@@ -25,11 +25,11 @@ public class BarberosEntity implements Serializable {
         return this;
     }
 
-    public boolean isbActivo() {
+    public int getbActivo() {
         return bActivo;
     }
 
-    public BarberosEntity setbActivo(boolean bActivo) {
+    public BarberosEntity setbActivo(int bActivo) {
         this.bActivo = bActivo;
         return this;
     }
