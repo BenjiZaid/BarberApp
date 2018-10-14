@@ -147,6 +147,9 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     }
 
     private void getBarberias() {
+        SharedPreferences mPrefs = getActivity().getSharedPreferences(getString(R.string.keypreference), getActivity().MODE_PRIVATE); //add key
+        IdUsuario = mPrefs.getInt("USUARIO", 0);
+
 
         AndroidNetworking.get(WebService.ListarBarberias(IdUsuario))
                 //.setTag("test")

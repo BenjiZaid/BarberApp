@@ -154,6 +154,9 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
 
     private void getBarberos() {
 
+        SharedPreferences mPrefs = getActivity().getSharedPreferences(getString(R.string.keypreference), getActivity().MODE_PRIVATE); //add key
+        IdUsuario = mPrefs.getInt("USUARIO", 0);
+
 
         AndroidNetworking.get(WebService.ListarBarberos(IdUsuario))
                 .setPriority(Priority.LOW)
