@@ -104,8 +104,9 @@ public class CreateUserActivity extends AppCompatActivity {
 
                                 int IdUsuario = jsonObject.getInt("iRespuesta");
 
-
-                                if (IdUsuario == 0) {
+                                if (IdUsuario == -2){
+                                    Toast.makeText(CreateUserActivity.this, jsonObject.getString("vRespuesta"), Toast.LENGTH_SHORT).show();
+                                }else if (IdUsuario == 0) {
                                     Toast.makeText(CreateUserActivity.this, "Error al crear usuario", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Intent intent = new Intent(CreateUserActivity.this, NavigationActivity.class);
