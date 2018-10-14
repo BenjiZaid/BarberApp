@@ -7,12 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.benjizaid.myapp.fragments.BarberiasFragment;
 import com.benjizaid.myapp.fragments.BarberosFragment;
 import com.benjizaid.myapp.interfaces.OnBarberosListener;
-import com.benjizaid.myapp.interfaces.OnTabListener;
 import com.benjizaid.myapp.model.BarberiaEntity;
 import com.benjizaid.myapp.model.BarberosEntity;
 

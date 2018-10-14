@@ -27,8 +27,10 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.benjizaid.myapp.BarberiaDetalleActivity;
 import com.benjizaid.myapp.BarberosDetallesActivity;
 import com.benjizaid.myapp.R;
+import com.benjizaid.myapp.adapters.BarberiaAdapter;
 import com.benjizaid.myapp.adapters.BarberoAdapter;
 import com.benjizaid.myapp.app.WebService;
 import com.benjizaid.myapp.interfaces.OnBarberosListener;
@@ -271,4 +273,6 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
                     }
                 });
     }
+
+
 }

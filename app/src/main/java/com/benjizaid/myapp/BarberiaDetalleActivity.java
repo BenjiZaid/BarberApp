@@ -1,7 +1,11 @@
 package com.benjizaid.myapp;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +20,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.widget.ANImageView;
 import com.benjizaid.myapp.adapters.BarberiaAdapter;
 import com.benjizaid.myapp.adapters.BarberoAdapter;
@@ -25,6 +30,7 @@ import com.benjizaid.myapp.model.BarberosEntity;
 import com.benjizaid.myapp.model.CorteEntity;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +76,15 @@ public class BarberiaDetalleActivity extends BaseActivity  implements BarberoAda
 
         progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
 
+        fotGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BarberiaDetalleActivity.this, MapsActivity.class);
+                intent.putExtra("BARBERIA", barberiaEntity);
+                startActivity(intent);
+            }
+        });
 
 //        ivGPSBarberia.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -146,7 +161,16 @@ public class BarberiaDetalleActivity extends BaseActivity  implements BarberoAda
 
     @Override
     public void onClickCallback(BarberosEntity item) {
+        if (checkPermission(Manifest.permission.CALL_PHONE)) {
+            String dial = "tel:" + item.getvTelefono();
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+        } else {
+            Toast.makeText(BarberiaDetalleActivity.this, "Permission Call Phone denied", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    private boolean checkPermission(String permission) {
+        return ContextCompat.checkSelfPermission(BarberiaDetalleActivity.this, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
@@ -155,7 +179,28 @@ public class BarberiaDetalleActivity extends BaseActivity  implements BarberoAda
     }
 
     @Override
-    public void onClickFavorito(BarberosEntity item, int position) {
+    public void onClickFavorito(BarberosEntity item, final int position) {
+        String Url = "";
 
+        if (item.getbActivo() == 1)
+            Url = WebService.desactivarFavoritoBarbero(IdUsuario, item.getId());
+        else
+            Url = WebService.agregarFavoritoBarbero(IdUsuario, item.getId());
+
+
+        AndroidNetworking.post(Url)
+                .setPriority(Priority.LOW)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        barberoAdapter.changeFavorito(position);
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        Toast.makeText(BarberiaDetalleActivity.this,"Error en Servicio",Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

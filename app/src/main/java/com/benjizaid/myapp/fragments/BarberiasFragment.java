@@ -1,5 +1,6 @@
 package com.benjizaid.myapp.fragments;
 
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -15,12 +16,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -29,18 +29,11 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.benjizaid.myapp.BarberiaDetalleActivity;
-import com.benjizaid.myapp.BarberosDetallesActivity;
-import com.benjizaid.myapp.NavigationActivity;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.adapters.BarberiaAdapter;
 import com.benjizaid.myapp.app.WebService;
-import com.benjizaid.myapp.eventos.RecyclerTouchListener;
-import com.benjizaid.myapp.interfaces.ClickListener;
-import com.benjizaid.myapp.interfaces.OnBarberiaListener;
 import com.benjizaid.myapp.interfaces.OnBarberosListener;
-import com.benjizaid.myapp.interfaces.OnTabListener;
 import com.benjizaid.myapp.model.BarberiaEntity;
-import com.benjizaid.myapp.model.BarberosEntity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,6 +41,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class BarberiasFragment extends Fragment implements BarberiaAdapter.AdapterCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
