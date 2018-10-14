@@ -28,27 +28,10 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
 
     public interface AdapterCallback {
         void onClickCallback(BarberiaEntity item);
+
         void onClickNameBarberia(BarberiaEntity item);
-        void onClickFavorito(BarberiaEntity item);
-    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView tviNombreBerberia;
-        public ImageView callBarberia;
-        public View view;
-
-        public ANImageView fotoBarberia;
-        public ImageView sendFavorito;
-
-        public ViewHolder(View v) {
-            super(v);
-            this.view = v;
-            tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBarberia);
-            callBarberia = (ImageView) v.findViewById(R.id.callBarberia);
-            fotoBarberia = (ANImageView) v.findViewById(R.id.iviFotoBarberia);
-            sendFavorito = (ImageView) v.findViewById(R.id.sendFavorito);
-        }
+        void onClickFavorito(BarberiaEntity item, int position);
     }
 
     public void setBarberiaEntities(List<BarberiaEntity> barberiaEntities) {
@@ -71,7 +54,7 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(BarberiaAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(BarberiaAdapter.ViewHolder holder, final int position) {
         final BarberiaEntity barberiaEntity = barberiaEntities.get(position);
         final int itemPosition = position;
         final String barberiaName = barberiaEntity.getvName();
@@ -82,16 +65,16 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         //holder.fotoBarberia.setImageUrl(barberiaEntity.getvFoto());
         holder.fotoBarberia.setImageUrl("https://picsum.photos/300/300/?image=" + barberiaEntity.getId());
 
-        if (barberiaEntity.getbActivo()==0){
-            holder.sendFavorito.setImageResource(R.drawable.ic_star_border_black_24dp);;
-        }else{
-            holder.sendFavorito.setImageResource(R.drawable.ic_star_black_24dp);;
+        if (barberiaEntity.getbActivo() == 0) {
+            holder.sendFavorito.setImageResource(R.drawable.ic_star_border_black_24dp);
+        } else {
+            holder.sendFavorito.setImageResource(R.drawable.start_active);
         }
 
         holder.sendFavorito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.onClickFavorito(barberiaEntity);
+                callback.onClickFavorito(barberiaEntity, position);
             }
         });
 
@@ -115,9 +98,38 @@ public class BarberiaAdapter extends RecyclerView.Adapter<BarberiaAdapter.ViewHo
         });
     }
 
+    public void changeFavorito(int position) {
+        if (barberiaEntities.get(position).getbActivo() == 1)
+            barberiaEntities.get(position).setbActivo(0);
+        else
+            barberiaEntities.get(position).setbActivo(1);
+
+        this.notifyItemRangeChanged(position, 1);
+    }
+
     @Override
     public int getItemCount() {
         return barberiaEntities.size();
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public TextView tviNombreBerberia;
+        public ImageView callBarberia;
+        public View view;
+
+        public ANImageView fotoBarberia;
+        public ImageView sendFavorito;
+
+        public ViewHolder(View v) {
+            super(v);
+            this.view = v;
+            tviNombreBerberia = (TextView) v.findViewById(R.id.tviNombreBarberia);
+            callBarberia = (ImageView) v.findViewById(R.id.callBarberia);
+            fotoBarberia = (ANImageView) v.findViewById(R.id.iviFotoBarberia);
+            sendFavorito = (ImageView) v.findViewById(R.id.sendFavorito);
+        }
     }
 
 

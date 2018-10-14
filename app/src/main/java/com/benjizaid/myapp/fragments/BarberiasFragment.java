@@ -27,6 +27,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.benjizaid.myapp.BarberiaDetalleActivity;
 import com.benjizaid.myapp.BarberosDetallesActivity;
 import com.benjizaid.myapp.NavigationActivity;
@@ -42,6 +43,7 @@ import com.benjizaid.myapp.model.BarberiaEntity;
 import com.benjizaid.myapp.model.BarberosEntity;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -242,49 +244,28 @@ public class BarberiasFragment extends Fragment implements BarberiaAdapter.Adapt
     }
 
     @Override
-    public void onClickFavorito(BarberiaEntity item) {
-        AndroidNetworking.get(WebService.ListarBarberias(IdUsuario))
-                //.setTag("test")
+    public void onClickFavorito(BarberiaEntity item, final int position) {
+        String Url = "";
+
+        if (item.getbActivo() == 1)
+            Url = WebService.desactivarFavoritoBarberia(IdUsuario, item.getId());
+        else
+            Url = WebService.agregarFavoritoBarberia(IdUsuario, item.getId());
+
+
+        AndroidNetworking.post(Url)
                 .setPriority(Priority.LOW)
                 .build()
-                .getAsJSONArray(new JSONArrayRequestListener() {
+                .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onResponse(JSONArray response) {
-
-                        try {
-//activarbarberofavorito/?IDUsuario=&IDBarbero=
-                            //listaBaberias
-                            BarberiaEntity item;
-                            for (int i = 0; i < response.length(); i++) {
-                                item = new BarberiaEntity();
-                                item
-                                        .setbActivo(response.getJSONObject(i).getInt("bActivo"))
-                                        .setId(response.getJSONObject(i).getInt("id"))
-                                        .setvDescripcion(response.getJSONObject(i).getString("vDescripcion"))
-                                        .setvDireccion(response.getJSONObject(i).getString("vDireccion"))
-                                        .setvEmail(response.getJSONObject(i).getString("vEmail"))
-                                        .setvFoto(response.getJSONObject(i).getString("vFoto"))
-                                        .setvLatitud(response.getJSONObject(i).getDouble("vLatitud"))
-                                        .setvLongitud(response.getJSONObject(i).getDouble("vLongitud"))
-                                        .setvName(response.getJSONObject(i).getString("vName"))
-                                        .setvTelefono(response.getJSONObject(i).getString("vTelefono"));
-
-                                listaBaberias.add(item);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        progressBar.setVisibility(View.GONE);
-
-                        barberiaAdapter.setBarberiaEntities(listaBaberias);
-                        barberiaAdapter.notifyDataSetChanged();
+                    public void onResponse(JSONObject response) {
+                        barberiaAdapter.changeFavorito(position);
                     }
 
                     @Override
-                    public void onError(ANError error) {
-                        progressBar.setVisibility(View.GONE);
+                    public void onError(ANError anError) {
+                        Toast.makeText(getContext(),"Error en Servicio",Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 }

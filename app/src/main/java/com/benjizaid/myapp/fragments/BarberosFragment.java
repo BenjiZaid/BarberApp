@@ -26,6 +26,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.benjizaid.myapp.BarberosDetallesActivity;
 import com.benjizaid.myapp.R;
 import com.benjizaid.myapp.adapters.BarberoAdapter;
@@ -35,6 +36,7 @@ import com.benjizaid.myapp.model.BarberiaEntity;
 import com.benjizaid.myapp.model.BarberosEntity;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -242,5 +244,31 @@ public class BarberosFragment extends Fragment implements BarberoAdapter.Adapter
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    public void onClickFavorito(BarberosEntity item, final int position) {
+        String Url = "";
+
+        if (item.getbActivo() == 1)
+            Url = WebService.desactivarFavoritoBarbero(IdUsuario, item.getId());
+        else
+            Url = WebService.agregarFavoritoBarbero(IdUsuario, item.getId());
+
+
+        AndroidNetworking.post(Url)
+                .setPriority(Priority.LOW)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        barberoAdapter.changeFavorito(position);
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        Toast.makeText(getContext(),"Error en Servicio",Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
