@@ -1,5 +1,6 @@
 package com.benjizaid.myapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,89 +55,26 @@ public class CreateUserActivity extends AppCompatActivity {
         public void onClick(View view) {
             //vams a asumirq ue registra todos
 
-            String password = txtPassword.getText().toString().trim(),
-                    repetirPasswsor = txtRepetirPassword.getText().toString().trim(),
-                    nombres = txtNombresUsuario.getText().toString(),
-                    apellidos = txtApellidosUsuario.getText().toString().trim(),
-                    email = txtEmail.getText().toString().trim(),
-                    direccion = txtDireccion.getText().toString().trim(),
-                    telefono = txtTelefono.getText().toString().trim();
-
-            if (apellidos.length() == 0) {
-                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Apellidos", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                return;
-            }
-
-            if (nombres.length() == 0) {
-                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Nombres", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                return;
-            }
-
-            if (email.length() == 0) {
-                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Email", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                return;
-            }
-
-            if (direccion.length() == 0) {
-                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Dirección", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                return;
-            }
-
-            if (telefono.length() != 9) {
-                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese telefono válido (9 caracteres)", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                return;
-            }
-
-            if (password.length() == 0) {
-                Functions.mostrarAlerta(CreateUserActivity.this, "Ingrese Password", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                return;
-            }
-
-            if (!password.equals(repetirPasswsor)){
-                Functions.mostrarAlerta(CreateUserActivity.this, "Password no son Iguales", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                return;
-            }
-
 
             final ProgressDialog mProgressDialog = new ProgressDialog(CreateUserActivity.this);
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.setMessage("Registrando...");
             mProgressDialog.show();
+
+            /*
+            addBodyParameter
+            addHeaders
+            addPathParameter
+            addQueryParameter
+             */
+
+            String password = txtPassword.getText().toString(),
+                    nombres = txtNombresUsuario.getText().toString(),
+                    apellidos = txtApellidosUsuario.getText().toString(),
+                    email = txtEmail.getText().toString(),
+                    direccion = txtDireccion.getText().toString(),
+                    telefono = txtTelefono.getText().toString();
+
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -152,12 +90,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
             AndroidNetworking.post(WebService.registerUser())
                     .addJSONObjectBody(jsonObject) // posting json
-//                    .addBodyParameter("vPassword",password)
-//                    .addBodyParameter("vNombres", nombres)
-//                    .addBodyParameter("vApellidos",apellidos)
-//                    .addBodyParameter("vEmail",email)
-//                    .addBodyParameter("vDireccion",direccion)
-                    .addBodyParameter("vTelefono", telefono)
                     .setPriority(Priority.LOW)
                     .build()
                     .getAsJSONObject(new JSONObjectRequestListener() {
@@ -170,9 +102,9 @@ public class CreateUserActivity extends AppCompatActivity {
 
                                 int IdUsuario = jsonObject.getInt("iRespuesta");
 
-                                if (IdUsuario == -2) {
+                                if (IdUsuario == -2){
                                     Toast.makeText(CreateUserActivity.this, jsonObject.getString("vRespuesta"), Toast.LENGTH_SHORT).show();
-                                } else if (IdUsuario == 0) {
+                                }else if (IdUsuario == 0) {
                                     Toast.makeText(CreateUserActivity.this, "Error al crear usuario", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Intent intent = new Intent(CreateUserActivity.this, NavigationActivity.class);
@@ -187,21 +119,33 @@ public class CreateUserActivity extends AppCompatActivity {
                                     /*PARA QUE NO SE REGRESE AL LOGIN*/
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
                                     startActivity(intent);
 
                                     finish();
+
+
+
                                 }
                             } catch (Exception ex) {
-//                                Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder dialogo = new AlertDialog.Builder(CreateUserActivity.this)
+                                        .setTitle(getString(R.string.app_name))
+                                        .setMessage("Error")
+                                        .setIcon(R.mipmap.ic_launcher)
+                                        .setCancelable(false)
+
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        });
+                                dialogo.show();
                             }
                         }
 
                         @Override
                         public void onError(ANError anError) {
                             mProgressDialog.dismiss();
-//                            Toast.makeText(LoginActivity.this, "Error en el servicio", Toast.LENGTH_SHORT).show();
 
                         }
                     });
