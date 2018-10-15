@@ -6,6 +6,6 @@ Video Demo en youtube: https://youtu.be/dygOpAloCck
 
 <b>Integrantes: </b>
 <ul> 
-<li>Jonathan Huarcaya</li> 
-<li>Benji Santillan</li> 
+<li>Jonathan Huarcaya Salas</li> 
+<li>Benji Santillán Torres</li> 
 </ul> 
